@@ -1,0 +1,72 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Heading */
+.heading {
+  width: 90%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+  padding: 10px;
+  border: 2px solid #333;
+}
+
+/* Main container: 3-column layout */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr; /* Left, Center, Right */
+  gap: 20px;
+  border: 2px dashed #555;
+  padding: 10px;
+}
+
+/* Left - All Songs */
+.all-song-div {
+  border: 2px solid red;
+  padding: 10px;
+}
+
+/* Center - Card Section */
+.card-div {
+  border: 2px solid blue;
+  padding: 10px;
+  text-align: center;
+}
+
+/* Right - Playlist Section */
+.playlist-div {
+  border: 2px solid green;
+  padding: 10px;
+}
+.dark-theme {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+/* Inner layout visibility */
+.filter,
+.song-list,
+.thumbnail,
+.song-info,
+.audio-controls,
+.playlist-form,
+.playlist-lists {
+  border: 1px dashed gray;
+  padding: 10px;
+  margin-bottom: 15px;
+}

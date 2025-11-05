@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Heading -->
+    <div class="heading">
+        <h1 style="color: blue; text-align: center;">Music Player</h1>
+        <div class="theme-toggle">
+            <input type="button" value="Change theme" />
+        </div>
+    </div>
+
+    <!-- Main container -->
+    <div class="container">
+
+        <!-- Left Section: All Songs -->
+        <div class="all-song-div">
+            <div class="filter">
+                <label>Filter by Genre:</label>
+                <select>
+                    <option>All</option>
+                </select>
+            </div>
+
+            <div class="song-list">
+                <h2>All Songs</h2>
+                <ul></ul>
+            </div>
+        </div>
+
+        <!-- Center Section: Current Song Card -->
+        <div class="card-div">
+            <div class="thumbnail"></div>
+            <div class="song-info"></div>
+            <div class="audio-controls"></div>
+        </div>
+
+        <!-- Right Section: Playlist -->
+        <div class="playlist-div">
+            <div class="playlist-form">
+                <input type="text" placeholder="Enter playlist name">
+                <button>Create Playlist</button>
+            </div>
+
+            <div class="playlist-lists">
+                <div class="current-playlist">
+                    <h2>Current Playlist</h2>
+                    <ul></ul>
+                </div>
+
+                <div class="all-playlists">
+                    <h2>All Playlists</h2>
+                    <ul></ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
