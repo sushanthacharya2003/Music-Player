@@ -27,10 +27,13 @@ const songs = [
 
 const theme = document.querySelector(".theme-toggle");
 
-const toggle = document.createElement("toggle");
-
 function toggleTheme() {
   document.body.classList.toggle("dark-theme");
+  if (theme.textContent.includes("Dark")) {
+    theme.innerHTML = `🌜 Light Mode`;
+  } else {
+    theme.innerHTML = `🌞 Dark Mode`;
+  }
 }
 
 theme.addEventListener("click", toggleTheme);
