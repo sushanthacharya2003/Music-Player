@@ -11,6 +11,7 @@ body {
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 /* Heading */
@@ -54,9 +55,64 @@ body {
   border: 2px solid green;
   padding: 10px;
 }
-.dark-theme {
-  background-color: #121212;
-  color: #e0e0e0;
+body.dark-theme {
+  color: #f0f0f0;
+  background-color: #1a1a1a;
+}
+
+.theme-container {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Space between the text and the toggle switch */
+  margin: 20px;
+}
+.theme-toggle {
+  position: relative;
+  display: inline-block;
+  width: 60px; /* Width of the track */
+  height: 34px; /* Height of the track */
+  cursor: pointer;
+}
+
+/* --- The Slider (The Rounded Track) --- */
+.slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc; /* Light theme track color (gray) */
+  transition: 0.4s;
+}
+
+/* --- Rounded Corners for the Track --- */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px; /* Start position for the thumb */
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%; /* Makes it a circle */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* --- State: When the Checkbox is CHECKED (Dark Mode is Active) --- */
+input:checked + .slider {
+  background-color: #2196f3; /* Dark theme track color (blue) */
+}
+
+/* --- State: Move the Thumb to the Right --- */
+input:checked + .slider:before {
+  transform: translateX(
+    26px
+  ); /* 60px (track width) - 34px (thumb + padding) = 26px shift */
 }
 /* Inner layout visibility */
 .filter,

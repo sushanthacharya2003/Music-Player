@@ -25,18 +25,24 @@ const songs = [
   },
 ];
 
-const theme = document.querySelector(".theme-toggle");
-//toggle function
+const themeCheckbox = document.getElementById("theme-checkbox");
+const themeText = document.querySelector(".theme-text");
+
+// Toggle function
 function toggleTheme() {
+  // 1. Toggle the 'dark-theme' class on the body
   document.body.classList.toggle("dark-theme");
-  if (theme.textContent.includes("Dark")) {
-    theme.innerHTML = `🌜 Light Mode`;
+
+  // 2. Change the text content
+  if (themeText.textContent.includes("Dark")) {
+    themeText.innerHTML = `🌜 Light Mode`;
   } else {
-    theme.innerHTML = `🌞 Dark Mode`;
+    themeText.innerHTML = `🌞 Dark Mode`;
   }
 }
-//toggle event listener
-theme.addEventListener("click", toggleTheme);
+
+// Toggle event listener: Listen for changes on the checkbox input
+themeCheckbox.addEventListener("change", toggleTheme);
 let songNumber = 0;
 //function to display songs
 function displaySongs(song) {
