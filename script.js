@@ -74,12 +74,12 @@ function displaySongs(song) {
   const prev = document.createElement("button");
   prev.textContent = "Previous";
   const next = document.createElement("button");
-  const addToPlaylist = document.createElement("button");
-  addToPlaylist.textContent = "Add to Playlist";
+  const addToPlaylistBtn = document.createElement("button");
+  addToPlaylistBtn.textContent = "Add to Playlist";
   next.textContent = "Next";
   buttons.appendChild(prev);
   buttons.appendChild(next);
-  buttons.appendChild(addToPlaylist);
+  buttons.appendChild(addToPlaylistBtn);
   if (songNumber === 0) {
     prev.style.display = "none";
   }
@@ -88,9 +88,30 @@ function displaySongs(song) {
   }
   prev.addEventListener("click", playPreviousSong);
   next.addEventListener("click", playNextSong);
-
+  addToPlaylistBtn.addEventListener("click", addToPlaylist);
   currentSong.append(thumbnail, songInfo, audioControls, buttons);
   songContainer.appendChild(currentSong);
+}
+
+//Creating ADD TO PLAYLIST FUNCTION
+function addToPlaylist() {
+  const currentPlaylist = document.querySelector(".current-playlist ul");
+  const listItem = document.createElement("li");
+  const items = document.querySelectorAll("li");
+  const playlistSong = document.createElement("button");
+
+  for (let i of items) {
+    if (
+      i.textContent ===
+      `${songs[songNumber].name} - ${songs[songNumber].artist}`
+    ) {
+      alert("Song already in playlist");
+      return;
+    }
+  }
+  playlistSong.textContent = `${songs[songNumber].name} - ${songs[songNumber].artist}`;
+  currentPlaylist.appendChild(listItem);
+  listItem.appendChild(playlistSong);
 }
 
 function playNextSong() {
