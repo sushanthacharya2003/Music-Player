@@ -74,9 +74,12 @@ function displaySongs(song) {
   const prev = document.createElement("button");
   prev.textContent = "Previous";
   const next = document.createElement("button");
+  const addToPlaylist = document.createElement("button");
+  addToPlaylist.textContent = "Add to Playlist";
   next.textContent = "Next";
   buttons.appendChild(prev);
   buttons.appendChild(next);
+  buttons.appendChild(addToPlaylist);
   if (songNumber === 0) {
     prev.style.display = "none";
   }
