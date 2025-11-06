@@ -100,6 +100,7 @@ function addToPlaylist() {
   const items = document.querySelectorAll("li");
   const playlistSong = document.createElement("button");
 
+  
   for (let i of items) {
     if (
       i.textContent ===
@@ -118,7 +119,6 @@ function playNextSong() {
   songNumber = songNumber + 1;
   displaySongs(songs[songNumber]);
 }
-
 function playPreviousSong() {
   songNumber = songNumber - 1;
   displaySongs(songs[songNumber]);
