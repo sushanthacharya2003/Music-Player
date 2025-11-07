@@ -77,9 +77,9 @@ function toggleTheme() {
   document.body.classList.toggle("dark-theme");
   if (!themeBtn) return;
   if (themeBtn.textContent.includes("Dark")) {
-    themeBtn.textContent = "🌜 Light Mode";
+    themeBtn.innerHTML = '<i class="fas fa-moon"></i> Light Mode';
   } else {
-    themeBtn.textContent = "🌞 Dark Mode";
+    themeBtn.innerHTML = '<i class="fas fa-sun"></i> Dark Mode';
   }
 }
 if (themeBtn) themeBtn.addEventListener("click", toggleTheme);
@@ -115,11 +115,15 @@ function displaySongs(song) {
   const buttons = document.createElement("div");
   buttons.classList.add("navigation-buttons");
   const prev = document.createElement("button");
-  prev.textContent = "Previous";
+  prev.innerHTML = '<i class="fas fa-step-backward"></i> Previous';
+  prev.classList.add("btn-gradient");
   const next = document.createElement("button");
   const addToPlaylistBtn = document.createElement("button");
-  addToPlaylistBtn.textContent = "Add to Playlist";
-  next.textContent = "Next";
+  addToPlaylistBtn.innerHTML =
+    '<i class="fas fa-plus-circle"></i> Add to Playlist';
+  addToPlaylistBtn.classList.add("btn-gradient");
+  next.innerHTML = 'Next <i class="fas fa-step-forward"></i>';
+  next.classList.add("btn-gradient");
   buttons.appendChild(prev);
   buttons.appendChild(next);
   buttons.appendChild(addToPlaylistBtn);
@@ -153,29 +157,12 @@ function displaySongs(song) {
 
 //Creating ADD TO PLAYLIST FUNCTION
 function addToPlaylist() {
-<<<<<<< HEAD
   const currentPlaylistName = document.querySelector(
     ".current-playlist h2"
   ).textContent;
   if (currentPlaylistName === "Current Playlist") {
     alert("Please select a playlist first!");
     return;
-=======
-  const currentPlaylist = document.querySelector(".current-playlist ul");
-  const listItem = document.createElement("li");
-  const items = document.querySelectorAll("li");
-  const playlistSong = document.createElement("button");
-
-  
-  for (let i of items) {
-    if (
-      i.textContent ===
-      `${songs[songNumber].name} - ${songs[songNumber].artist}`
-    ) {
-      alert("Song already in playlist");
-      return;
-    }
->>>>>>> 04506cbd8bee81543fbef34afc9cf319326f787b
   }
 
   // Get the current song
