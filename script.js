@@ -1,3 +1,6 @@
+// Store all playlists
+const playlists = {};
+
 const songs = [
   {
     id: 1,
@@ -25,28 +28,22 @@ const songs = [
   },
 ];
 
-const themeCheckbox = document.getElementById("theme-checkbox");
-const themeText = document.querySelector(".theme-text");
-
-// Toggle function
+// Theme toggle (button with id 'themeToggle' in the HTML)
+const themeBtn = document.getElementById("themeToggle");
 function toggleTheme() {
-  // 1. Toggle the 'dark-theme' class on the body
   document.body.classList.toggle("dark-theme");
-
-  // 2. Change the text content
-  if (themeText.textContent.includes("Dark")) {
-    themeText.innerHTML = `🌜 Light Mode`;
+  if (!themeBtn) return;
+  if (themeBtn.textContent.includes("Dark")) {
+    themeBtn.textContent = "🌜 Light Mode";
   } else {
-    themeText.innerHTML = `🌞 Dark Mode`;
+    themeBtn.textContent = "🌞 Dark Mode";
   }
 }
-
-// Toggle event listener: Listen for changes on the checkbox input
-themeCheckbox.addEventListener("change", toggleTheme);
+if (themeBtn) themeBtn.addEventListener("click", toggleTheme);
 let songNumber = 0;
 //function to display songs
 function displaySongs(song) {
-  const songContainer = document.querySelector(".song-container");
+  const songContainer = document.querySelector(".song-card");
   songContainer.innerHTML = ""; // clear before displaying
   const currentSong = document.createElement("div");
   currentSong.classList.add("card-div");
@@ -91,28 +88,146 @@ function displaySongs(song) {
   addToPlaylistBtn.addEventListener("click", addToPlaylist);
   currentSong.append(thumbnail, songInfo, audioControls, buttons);
   songContainer.appendChild(currentSong);
+
+  // attach audio play/pause listeners to toggle thumbnail animation
+  const audioEl = currentSong.querySelector("audio");
+  if (audioEl) {
+    audioEl.addEventListener("play", () => thumbnail.classList.add("playing"));
+    audioEl.addEventListener("pause", () =>
+      thumbnail.classList.remove("playing")
+    );
+    audioEl.addEventListener("ended", () =>
+      thumbnail.classList.remove("playing")
+    );
+  }
 }
 
 //Creating ADD TO PLAYLIST FUNCTION
 function addToPlaylist() {
-  const currentPlaylist = document.querySelector(".current-playlist ul");
-  const listItem = document.createElement("li");
-  const items = document.querySelectorAll("li");
-  const playlistSong = document.createElement("button");
-
-  for (let i of items) {
-    if (
-      i.textContent ===
-      `${songs[songNumber].name} - ${songs[songNumber].artist}`
-    ) {
-      alert("Song already in playlist");
-      return;
-    }
+  const currentPlaylistName = document.querySelector(
+    ".current-playlist h2"
+  ).textContent;
+  if (currentPlaylistName === "Current Playlist") {
+    alert("Please select a playlist first!");
+    return;
   }
-  playlistSong.textContent = `${songs[songNumber].name} - ${songs[songNumber].artist}`;
-  currentPlaylist.appendChild(listItem);
-  listItem.appendChild(playlistSong);
+
+  // Get the current song
+  const currentSong = songs[songNumber];
+  const playlistName = currentPlaylistName.replace("Current Playlist: ", "");
+
+  // Check if song already exists in the playlist
+  if (playlists[playlistName].some((song) => song.id === currentSong.id)) {
+    alert("Song already in playlist");
+    return;
+  }
+
+  // Add song to the playlist array
+  playlists[playlistName].push(currentSong);
+
+  // Update the display
+  renderPlaylistSongs(playlistName);
 }
+
+//creating display all playlist function
+const playlistContainer = document.querySelector(".all-playlists ul");
+
+function createNewPlaylist() {
+  const inputEl = document.querySelector(".playlist-form input");
+  const playlistName = inputEl.value;
+
+  if (playlistName.trim() === "") {
+    alert("Please enter a valid playlist name.");
+    return;
+  }
+
+  if (playlists[playlistName]) {
+    alert("Playlist already exists!");
+    return;
+  }
+
+  // Create new playlist array
+  playlists[playlistName] = [];
+
+  // Create NEW li + button for each playlist
+  const playlistItem = document.createElement("li");
+  const playlistButton = document.createElement("button");
+
+  playlistButton.textContent = playlistName;
+  playlistButton.setAttribute("data-playlist", playlistName);
+  playlistItem.appendChild(playlistButton);
+  playlistContainer.appendChild(playlistItem);
+
+  inputEl.value = "";
+
+  // Add click event to show this playlist
+  playlistButton.addEventListener("click", () =>
+    showCurrentPlaylist(playlistName)
+  );
+}
+
+const createPlaylistBtn = document.querySelector(".createPlaylistBtn");
+if (createPlaylistBtn)
+  createPlaylistBtn.addEventListener("click", createNewPlaylist);
+
+const currentPlaylistContainer = document.querySelector(
+  ".playlist-lists .current-playlist ul"
+);
+
+// Function to render songs in a playlist
+function renderPlaylistSongs(playlistName) {
+  currentPlaylistContainer.innerHTML = ""; // Clear existing items
+  document.querySelector(
+    ".current-playlist h2"
+  ).textContent = `Current Playlist: ${playlistName}`;
+
+  playlists[playlistName].forEach((song) => {
+    const li = document.createElement("li");
+    const button = document.createElement("button");
+    button.textContent = `${song.name} - ${song.artist}`;
+
+    // Add click event to play the song
+    button.addEventListener("click", () => {
+      songNumber = songs.findIndex((s) => s.id === song.id);
+      displaySongs(song);
+    });
+
+    li.appendChild(button);
+    currentPlaylistContainer.appendChild(li);
+  });
+}
+
+function showCurrentPlaylist(playlistName) {
+  // Set current playlist name
+  document.querySelector(
+    ".current-playlist h2"
+  ).textContent = `Current Playlist: ${playlistName}`;
+
+  // Render the songs
+  renderPlaylistSongs(playlistName);
+}
+
+const genreFilter = document.querySelector(
+  ".all-song-div > .filter > .genre-filter"
+);
+const Pop = document.createElement("option");
+Pop.value = "Pop";
+Pop.textContent = "Pop";
+genreFilter.appendChild(Pop);
+const Rock = document.createElement("option");
+Rock.value = "Rock";
+Rock.textContent = "Rock";
+genreFilter.appendChild(Rock);
+const Disco = document.createElement("option");
+Disco.value = "Disco";
+Disco.textContent = "Disco";
+genreFilter.appendChild(Disco);
+const Hiphop = document.createElement("option");
+Hiphop.value = "Hiphop";
+Hiphop.textContent = "Hiphop";
+genreFilter.appendChild(Hiphop);
+
+//creating NEXT AND PREVIOUS FUNCTION
 
 function playNextSong() {
   songNumber = songNumber + 1;
@@ -126,3 +241,27 @@ function playPreviousSong() {
 
 // initial display
 displaySongs(songs[songNumber]);
+
+// Ripple effect for buttons — create a span at click position and remove after animation
+function attachButtonRipples() {
+  document.querySelectorAll("button, .btn-gradient").forEach((btn) => {
+    btn.addEventListener("click", function (e) {
+      // don't create ripple for programmatic clicks
+      const rect = this.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height) * 1.2;
+      const x = e.clientX - rect.left - size / 2;
+      const y = e.clientY - rect.top - size / 2;
+
+      const ripple = document.createElement("span");
+      ripple.className = "ripple";
+      ripple.style.width = ripple.style.height = size + "px";
+      ripple.style.left = x + "px";
+      ripple.style.top = y + "px";
+      this.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 650);
+    });
+  });
+}
+
+// ensure ripples are attached after initial DOM render
+attachButtonRipples();
