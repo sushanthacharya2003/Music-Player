@@ -7,7 +7,7 @@ const songs = [
     name: "Shape of You",
     artist: "Ed Sheeran",
     image: "images/shapeOfYou.jpg",
-    genre: "Emotional",
+    genre: "Pop",
     source: "music/shapeOfYou.mp3",
   },
   {
@@ -15,7 +15,7 @@ const songs = [
     name: "Blinding Lights",
     artist: "The Weeknd",
     image: "images/blindingLights.png",
-    genre: "Disco",
+    genre: "Pop",
     source: "music/blindingLights.mp3",
   },
   {
@@ -25,6 +25,49 @@ const songs = [
     image: "images/levitating.jpg",
     genre: "Pop",
     source: "music/levitating.mp3",
+  },
+  {
+    id: 4,
+    name: "Sweet Child O' Mine",
+    artist: "Guns N' Roses",
+    image: "images/sweetochildominemain.jpg",
+    genre: "Rock",
+    source:
+      "music/Guns N  Roses - Sweet Child O  Mine (Official Music Video).mp3",
+  },
+  {
+    id: 5,
+    name: "Bohemian Rhapsody",
+    artist: "Queen",
+    image: "images/Bohemian-Rhapsody.jpg",
+    genre: "Rock",
+    source: "music/Queen – Bohemian Rhapsody (Official Video Remastered).mp3",
+  },
+  {
+    id: 6,
+    name: "Krishna Nee Begane",
+    artist: "K S Chithra",
+    image: "images/krishna.jpg",
+    genre: "Devotional",
+    source:
+      "music/Krishna Nee Beghane _ K S Chithra _ Traditional _ M Jayachandran.mp3",
+  },
+  {
+    id: 7,
+    name: "Maha Ganapatim",
+    artist: "Rajshri Soul",
+    image: "images/ganapati.jpeg",
+    genre: "Devotional",
+    source:
+      "music/Maha Ganapatim Manasa Smarami With Lyrics _ Popular Devotional Ganpati Songs _ Rajshri Soul.mp3",
+  },
+  {
+    id: 8,
+    name: "SICKO MODE",
+    artist: "Travis Scott ft. Drake",
+    image: "images/sickomode.jpg",
+    genre: "Hiphop",
+    source: "music/Travis Scott - SICKO MODE ft. Drake.mp3",
   },
 ];
 
@@ -43,10 +86,13 @@ if (themeBtn) themeBtn.addEventListener("click", toggleTheme);
 let songNumber = 0;
 //function to display songs
 function displaySongs(song) {
-  const songContainer = document.querySelector(".song-card");
+  // target the container that exists in the HTML
+  const songContainer = document.querySelector(".song-container");
+  if (!songContainer) return;
   songContainer.innerHTML = ""; // clear before displaying
   const currentSong = document.createElement("div");
-  currentSong.classList.add("card-div");
+  // ensure the element has both the visual card class and a stable container class
+  currentSong.classList.add("card-div", "song-card");
 
   const thumbnail = document.createElement("div");
   thumbnail.classList.add("thumbnail");
@@ -88,6 +134,9 @@ function displaySongs(song) {
   addToPlaylistBtn.addEventListener("click", addToPlaylist);
   currentSong.append(thumbnail, songInfo, audioControls, buttons);
   songContainer.appendChild(currentSong);
+
+  // attach ripple handlers only to these newly created buttons so they get the effect
+  [prev, next, addToPlaylistBtn].forEach((b) => attachRippleToButton(b));
 
   // attach audio play/pause listeners to toggle thumbnail animation
   const audioEl = currentSong.querySelector("audio");
@@ -207,26 +256,67 @@ function showCurrentPlaylist(playlistName) {
   renderPlaylistSongs(playlistName);
 }
 
-const genreFilter = document.querySelector(
-  ".all-song-div > .filter > .genre-filter"
-);
-const Pop = document.createElement("option");
-Pop.value = "Pop";
-Pop.textContent = "Pop";
-genreFilter.appendChild(Pop);
-const Rock = document.createElement("option");
-Rock.value = "Rock";
-Rock.textContent = "Rock";
-genreFilter.appendChild(Rock);
-const Disco = document.createElement("option");
-Disco.value = "Disco";
-Disco.textContent = "Disco";
-genreFilter.appendChild(Disco);
-const Hiphop = document.createElement("option");
-Hiphop.value = "Hiphop";
-Hiphop.textContent = "Hiphop";
-genreFilter.appendChild(Hiphop);
+const genreFilter = document.querySelector(".all-song-div .filter select");
 
+// Render the main left-side song list
+function renderSongList(filtered = null, label = "All Songs") {
+  const ul = document.querySelector(".song-list ul");
+  if (!ul) return;
+  ul.innerHTML = "";
+  const list = filtered || songs;
+  const header = document.querySelector(".song-list h2");
+  if (header) header.textContent = label;
+  list.forEach((song, idx) => {
+    const li = document.createElement("li");
+    const img = document.createElement("img");
+    img.src = song.image;
+    img.alt = song.name;
+    const meta = document.createElement("div");
+    meta.classList.add("meta");
+    meta.innerHTML = `<strong>${song.name}</strong><small>${song.artist}</small>`;
+    li.appendChild(img);
+    li.appendChild(meta);
+
+    li.addEventListener("click", () => {
+      songNumber = songs.findIndex((s) => s.id === song.id);
+      // mark active
+      document
+        .querySelectorAll(".song-list li")
+        .forEach((n) => n.classList.remove("active"));
+      li.classList.add("active");
+      displaySongs(song);
+    });
+
+    ul.appendChild(li);
+  });
+}
+
+// Setup genre filter options dynamically from songs
+if (document.querySelector(".all-song-div .filter select")) {
+  const gf = document.querySelector(".all-song-div .filter select");
+  const genres = Array.from(new Set(songs.map((s) => s.genre)));
+  // add 'All' as default
+  const allOpt = document.createElement("option");
+  allOpt.value = "All";
+  allOpt.textContent = "All";
+  gf.appendChild(allOpt);
+  genres.forEach((g) => {
+    const opt = document.createElement("option");
+    opt.value = g;
+    opt.textContent = g;
+    gf.appendChild(opt);
+  });
+
+  gf.addEventListener("change", function () {
+    const selected = gf.value;
+    if (selected === "All") renderSongList(null, "All Songs");
+    else
+      renderSongList(
+        songs.filter((s) => s.genre === selected),
+        selected
+      );
+  });
+}
 //creating NEXT AND PREVIOUS FUNCTION
 
 function playNextSong() {
@@ -239,7 +329,11 @@ function playPreviousSong() {
   displaySongs(songs[songNumber]);
 }
 
-// initial display
+// initial render of song list and display of the first song
+renderSongList();
+// mark first song active if present
+const firstLi = document.querySelector(".song-list li");
+if (firstLi) firstLi.classList.add("active");
 displaySongs(songs[songNumber]);
 
 // Ripple effect for buttons — create a span at click position and remove after animation
@@ -265,3 +359,22 @@ function attachButtonRipples() {
 
 // ensure ripples are attached after initial DOM render
 attachButtonRipples();
+
+// helper to attach ripple to a single button element (used for buttons created dynamically)
+function attachRippleToButton(btn) {
+  if (!btn) return;
+  btn.addEventListener("click", function (e) {
+    const rect = this.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height) * 1.2;
+    const x = e.clientX - rect.left - size / 2;
+    const y = e.clientY - rect.top - size / 2;
+
+    const ripple = document.createElement("span");
+    ripple.className = "ripple";
+    ripple.style.width = ripple.style.height = size + "px";
+    ripple.style.left = x + "px";
+    ripple.style.top = y + "px";
+    this.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 650);
+  });
+}

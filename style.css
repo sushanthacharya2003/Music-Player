@@ -1,4 +1,6 @@
 /* ========== Full colorful + animated design ========== */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap");
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -16,21 +18,22 @@
 }
 
 body {
-  font-family: "Poppins", Inter, system-ui, -apple-system, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial;
+  font-family: "Montserrat", "Poppins", Inter, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial;
   min-height: 100vh;
+  /* enhanced colorful background */
   background: radial-gradient(
-      1200px 600px at 10% 20%,
-      rgba(124, 92, 255, 0.08),
-      transparent 10%
+      700px 400px at 10% 10%,
+      rgba(124, 92, 255, 0.25),
+      transparent 35%
     ),
     radial-gradient(
-      1000px 500px at 90% 80%,
-      rgba(0, 194, 168, 0.06),
-      transparent 12%
+      500px 300px at 85% 80%,
+      rgba(0, 194, 168, 0.2),
+      transparent 40%
     ),
-    linear-gradient(180deg, var(--bg-1), var(--bg-2));
-  color: #071022;
+    linear-gradient(180deg, #fff0f6 0%, #e8f7ff 40%, #f0fff4 100%);
+  color: #072033; /* darker, more readable text */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -51,10 +54,11 @@ body {
 .heading {
   width: min(1200px, 96%);
   display: flex;
-  justify-content: space-between;
+  justify-content: center !important; /* center the H1 horizontally and override Bootstrap utilities */
   align-items: center;
   gap: 12px;
   margin-bottom: 18px;
+  position: relative; /* allow absolute positioning for theme button */
 }
 .heading h1 {
   font-size: 1.6rem;
@@ -86,6 +90,14 @@ body {
   }
 }
 
+.theme-container {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.theme-container button,
 .theme-toggle button {
   padding: 8px 12px;
   border-radius: 10px;
@@ -137,7 +149,7 @@ body {
 }
 
 /* layout grid */
-.container {
+.music-player-container {
   width: min(1200px, 96%);
   display: grid;
   grid-template-columns: 320px 1fr 300px;
@@ -145,31 +157,63 @@ body {
   align-items: start;
 }
 @media (max-width: 900px) {
-  .container {
+  .music-player-container {
     grid-template-columns: 1fr;
   }
   .heading h1 {
     text-align: center;
     width: 100%;
   }
+  .theme-container {
+    position: static;
+    transform: none;
+  }
 }
 
 /* card glass panels */
-.all-song-div,
-.song-container,
-.playlist-div {
-  /* stronger, more opaque panel backgrounds so they're visible on any page background */
+.music-player-container > .all-song-div {
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.98),
+    rgba(124, 92, 255, 0.98),
     rgba(255, 255, 255, 0.95)
   ) !important;
   border-radius: 14px;
   padding: 14px;
-  box-shadow: 0 18px 60px rgba(7, 18, 34, 0.08) !important;
+  box-shadow: 0 18px 60px rgba(124, 92, 255, 0.12) !important,
+    0 6px 24px rgba(0, 194, 168, 0.06) inset;
   backdrop-filter: blur(8px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  border: 1px solid rgba(124, 92, 255, 0.2) !important;
 }
+
+.music-player-container > .playlist-div {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 194, 168, 0.98),
+    rgba(255, 255, 255, 0.95)
+  ) !important;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 18px 60px rgba(0, 194, 168, 0.12) !important,
+    0 6px 24px rgba(124, 92, 255, 0.04) inset;
+  backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(0, 194, 168, 0.2) !important;
+}
+
+.music-player-container > .song-container,
+.music-player-container > .song-card {
+  background: linear-gradient(
+    165deg,
+    rgba(255, 107, 107, 0.98),
+    rgba(124, 92, 255, 0.95)
+  ) !important;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 22px 70px rgba(255, 107, 107, 0.2),
+    0 8px 30px rgba(124, 92, 255, 0.1) inset !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
 .dark-theme .all-song-div,
 .dark-theme .song-container,
 .dark-theme .playlist-div {
@@ -180,8 +224,9 @@ body {
 /* song list */
 .song-list h2 {
   margin-bottom: 10px;
-  color: var(--muted);
-  font-weight: 600;
+  color: #072033;
+  font-weight: 700;
+  font-size: 1.2rem;
 }
 .song-list ul {
   list-style: none;
@@ -218,9 +263,13 @@ body {
 }
 .song-list li .meta strong {
   display: block;
+  color: #072033;
+  font-weight: 700;
+  font-size: 1rem;
 }
 .song-list li .meta small {
   color: var(--muted);
+  font-weight: 500;
 }
 .song-list li.active {
   background: linear-gradient(
@@ -230,6 +279,69 @@ body {
   );
   box-shadow: 0 28px 64px rgba(124, 92, 255, 0.2);
   transform: translateY(-10px) scale(1.03);
+}
+
+/* Buttons styling for playlist and create playlist */
+.createPlaylistBtn,
+.playlist-lists button,
+.current-playlist ul li button,
+.all-playlists ul li button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 12px 28px rgba(124, 92, 255, 0.12);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.createPlaylistBtn:hover,
+.playlist-lists button:hover,
+.current-playlist ul li button:hover,
+.all-playlists ul li button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px rgba(124, 92, 255, 0.14);
+}
+
+/* Make playlist buttons full-width inside their list items for better touch targets */
+.current-playlist ul li button,
+.all-playlists ul li button {
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+}
+
+/* Song buttons inside the left song list remain transparent (clickable list items) */
+.song-list li button {
+  background: transparent;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* Style current playlist song buttons to be visible and tappable */
+.current-playlist ul li button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  background: linear-gradient(
+    90deg,
+    rgba(124, 92, 255, 0.12),
+    rgba(0, 194, 168, 0.06)
+  );
+  border-radius: 8px;
+  border: 1px solid rgba(124, 92, 255, 0.06);
+  color: #072033;
+}
+.current-playlist ul li button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(124, 92, 255, 0.08);
 }
 
 /* left accent bar and per-item subtle color variations */
@@ -307,20 +419,6 @@ body {
   gap: 14px;
   justify-content: flex-start;
 }
-.song-card {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.6),
-    rgba(255, 255, 255, 0.45)
-  );
-  padding: 12px 16px;
-  border-radius: 12px;
-}
 .song-card,
 .card-div {
   width: 100%;
@@ -337,6 +435,8 @@ body {
   padding: 12px 16px;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  color: #072033; /* ensure readable text on cards */
+  background-clip: padding-box;
 }
 .thumbnail {
   width: 260px;
@@ -344,7 +444,8 @@ body {
   border-radius: 14px;
   background-size: cover;
   background-position: center;
-  box-shadow: 0 18px 60px rgba(7, 18, 34, 0.08);
+  box-shadow: 0 18px 60px rgba(7, 18, 34, 0.08),
+    0 8px 40px rgba(124, 92, 255, 0.06), 0 0 22px rgba(0, 194, 168, 0.04) inset;
   transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.3, 1);
 }
 .thumbnail:hover {
@@ -355,10 +456,8 @@ body {
   font-size: 1.4rem;
   font-weight: 700;
   letter-spacing: -0.01em;
-  background: linear-gradient(90deg, var(--accent-2), var(--accent-1));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: #071022; /* visible, dark title */
+  text-shadow: 0 2px 8px rgba(124, 92, 255, 0.06);
 }
 .artist-name {
   color: var(--muted);
@@ -394,14 +493,24 @@ body {
   position: relative;
   overflow: hidden;
 }
+.controls .btn {
+  outline: none;
+}
 /* Navigation buttons (previous/next/add) */
+.navigation-buttons {
+  display: flex;
+  gap: 15px;
+  margin: 15px 0;
+}
+
 .navigation-buttons .btn,
 .navigation-buttons button {
-  padding: 10px 14px;
+  padding: 12px 20px;
   border-radius: 10px;
   border: none;
   background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
   color: #fff;
+  font-weight: 600;
   box-shadow: 0 10px 28px rgba(124, 92, 255, 0.12);
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
@@ -456,13 +565,26 @@ body {
 /* right playlist */
 .playlist-div h2 {
   margin-bottom: 8px;
-  color: var(--muted);
+  color: #072033;
+  font-weight: 700;
+  font-size: 1.2rem;
 }
 .playlist-form input {
   width: 100%;
   padding: 10px 12px;
   border-radius: 10px;
   border: 1px solid rgba(10, 20, 36, 0.04);
+}
+
+/* layout for playlist form: input + button */
+.playlist-form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.playlist-form input {
+  flex: 1;
 }
 
 /* fancy entrance animation for cards */
