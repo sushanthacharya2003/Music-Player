@@ -153,12 +153,29 @@ function displaySongs(song) {
 
 //Creating ADD TO PLAYLIST FUNCTION
 function addToPlaylist() {
+<<<<<<< HEAD
   const currentPlaylistName = document.querySelector(
     ".current-playlist h2"
   ).textContent;
   if (currentPlaylistName === "Current Playlist") {
     alert("Please select a playlist first!");
     return;
+=======
+  const currentPlaylist = document.querySelector(".current-playlist ul");
+  const listItem = document.createElement("li");
+  const items = document.querySelectorAll("li");
+  const playlistSong = document.createElement("button");
+
+  
+  for (let i of items) {
+    if (
+      i.textContent ===
+      `${songs[songNumber].name} - ${songs[songNumber].artist}`
+    ) {
+      alert("Song already in playlist");
+      return;
+    }
+>>>>>>> 04506cbd8bee81543fbef34afc9cf319326f787b
   }
 
   // Get the current song
@@ -323,7 +340,6 @@ function playNextSong() {
   songNumber = songNumber + 1;
   displaySongs(songs[songNumber]);
 }
-
 function playPreviousSong() {
   songNumber = songNumber - 1;
   displaySongs(songs[songNumber]);
