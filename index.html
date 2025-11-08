@@ -52,24 +52,33 @@
         </div>
 
         <!-- Right Section: Playlist -->
+        <!-- Right Section: Playlist -->
         <div class="playlist-div">
-            <div class="playlist-form">
+            <div class="playlist-form" style="display: grid; grid-template-columns: 2fr 2fr; gap: 0.5rem;">
                 <input type="text" placeholder="Enter playlist name">
                 <button class="createPlaylistBtn">Create Playlist</button>
+                <input type="text" class="searchPlaylistInput" placeholder="Search a playlist">
+                <button class="searchPlaylistBtn">Search</button>
             </div>
 
-            <div class="playlist-lists">
-                <div class="current-playlist">
-                    <h2>Current Playlist</h2>
-                    <ul></ul>
-                </div>
+            <div class="current-playlist">
+                <h2>Current Playlist</h2>
+                <ul></ul>
+            </div>
 
-                <div class="all-playlists">
-                    <h2>All Playlists</h2>
-                    <ul></ul>
-                </div>
+            <div class="all-playlists">
+                <h2>All Playlists</h2>
+                <ul></ul>
+            </div>
+
+            <!-- ✅ New: Recently Played -->
+            <div class="recently-played">
+                <h2>Recently Played</h2>
+                <ul></ul>
             </div>
         </div>
+
+    </div>
 
     </div>
 

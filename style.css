@@ -99,6 +99,7 @@ body {
   font-size: 1.6rem;
   letter-spacing: -0.02em;
   position: relative;
+  font-weight: bolder;
   /* nudge heading slightly left so it sits a little left of exact center */
   margin-left: -10px;
 }
@@ -336,8 +337,14 @@ body {
   transform: translateY(-10px) scale(1.03);
 }
 
+.playlist-item {
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
 /* Buttons styling for playlist and create playlist */
 .createPlaylistBtn,
+.searchPlaylistBtn,
 .playlist-lists button,
 .current-playlist ul li button,
 .all-playlists ul li button {
@@ -879,4 +886,46 @@ body {
 /* small utilities */
 .text-muted {
   color: var(--muted);
+}
+.fade-in {
+  opacity: 0;
+  transform: translateY(6px);
+  animation: fadeIn 0.25s ease-out forwards;
+}
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.playlist-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+.playlist-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+.icon-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0.25rem 0.4rem;
+  line-height: 1;
+}
+.icon-btn:hover {
+  opacity: 0.8;
+}
+
+.song-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.song-row .remove {
+  font-weight: 700;
 }
