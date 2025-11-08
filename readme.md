@@ -1,4 +1,4 @@
----
+
 
 ### Repository Description
 
@@ -107,8 +107,4 @@ Built by **SUSH (Sushanth Acharya)**
 GitHub: [@sushanthacharya2003](https://github.com/sushanthacharya2003)
 Feel free to drop me a message if you have feedback or suggestions.
 
-```
 
----
-
-```
