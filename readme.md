@@ -4,7 +4,6 @@
 
 > **Music-Player** – A lightweight, browser-based music player built with HTML, CSS and JavaScript. Play tracks, see album art, switch songs — no framework, just vanilla JS.
 
----
 
 ### README.md
 
