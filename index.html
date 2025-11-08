@@ -16,9 +16,9 @@
 <body>
 
     <!-- Heading -->
-    <div class="heading d-flex align-items-center justify-content-between">
+    <div class="heading">
         <h1>Music Player</h1>
-        <div class="theme-container d-flex align-items-center gap-2">
+        <div class="theme-container d-flex align-items-center">
             <button id="themeToggle" class="btn btn-sm btn-gradient">
                 <i class="fas fa-sun"></i> Dark Mode
             </button>
@@ -31,6 +31,10 @@
         <!-- Left Section: All Songs -->
         <div class="all-song-div">
             <div class="filter">
+                <div class="search-row">
+                    <input type="text" class="song-search" placeholder="Search songs">
+                    <button class="btn-gradient search-btn">Search</button>
+                </div>
                 <label>Filter by Genre:</label>
                 <select class="genre-filter">
                 </select>

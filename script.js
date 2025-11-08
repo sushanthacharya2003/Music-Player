@@ -69,6 +69,14 @@ const songs = [
     genre: "Hiphop",
     source: "music/Travis Scott - SICKO MODE ft. Drake.mp3",
   },
+  {
+    id: 9,
+    name: "God's Plan",
+    artist: "Drake",
+    image: "images/godsplan.jpeg",
+    genre: "Hiphop",
+    source: "music/Drake - God s Plan.mp3",
+  },
 ];
 
 // Theme toggle (button with id 'themeToggle' in the HTML)
@@ -85,7 +93,7 @@ function toggleTheme() {
 if (themeBtn) themeBtn.addEventListener("click", toggleTheme);
 let songNumber = 0;
 //function to display songs
-function displaySongs(song) {
+function renderCurrentSong(song) {
   // target the container that exists in the HTML
   const songContainer = document.querySelector(".song-container");
   if (!songContainer) return;
@@ -179,7 +187,7 @@ function addToPlaylist() {
   playlists[playlistName].push(currentSong);
 
   // Update the display
-  renderPlaylistSongs(playlistName);
+  renderPlaylistSong(playlistName);
 }
 
 //creating display all playlist function
@@ -228,7 +236,7 @@ const currentPlaylistContainer = document.querySelector(
 );
 
 // Function to render songs in a playlist
-function renderPlaylistSongs(playlistName) {
+function renderPlaylistSong(playlistName) {
   currentPlaylistContainer.innerHTML = ""; // Clear existing items
   document.querySelector(
     ".current-playlist h2"
@@ -242,7 +250,7 @@ function renderPlaylistSongs(playlistName) {
     // Add click event to play the song
     button.addEventListener("click", () => {
       songNumber = songs.findIndex((s) => s.id === song.id);
-      displaySongs(song);
+      renderCurrentSong(song);
     });
 
     li.appendChild(button);
@@ -257,7 +265,7 @@ function showCurrentPlaylist(playlistName) {
   ).textContent = `Current Playlist: ${playlistName}`;
 
   // Render the songs
-  renderPlaylistSongs(playlistName);
+  renderPlaylistSong(playlistName);
 }
 
 const genreFilter = document.querySelector(".all-song-div .filter select");
@@ -288,7 +296,7 @@ function renderSongList(filtered = null, label = "All Songs") {
         .querySelectorAll(".song-list li")
         .forEach((n) => n.classList.remove("active"));
       li.classList.add("active");
-      displaySongs(song);
+      renderCurrentSong(song);
     });
 
     ul.appendChild(li);
@@ -325,11 +333,11 @@ if (document.querySelector(".all-song-div .filter select")) {
 
 function playNextSong() {
   songNumber = songNumber + 1;
-  displaySongs(songs[songNumber]);
+  renderCurrentSong(songs[songNumber]);
 }
 function playPreviousSong() {
   songNumber = songNumber - 1;
-  displaySongs(songs[songNumber]);
+  renderCurrentSong(songs[songNumber]);
 }
 
 // initial render of song list and display of the first song
@@ -337,8 +345,38 @@ renderSongList();
 // mark first song active if present
 const firstLi = document.querySelector(".song-list li");
 if (firstLi) firstLi.classList.add("active");
-displaySongs(songs[songNumber]);
+renderCurrentSong(songs[songNumber]);
 
+//Aditional feautures
+
+//SEARCH FUNCTIONALITY
+const searchInput = document.querySelector(".song-search");
+const searchBtn = document.querySelector(".search-btn");
+
+if (searchInput && searchBtn) {
+  searchInput.setAttribute("placeholder", "Search songs...");
+
+  // Function to perform search
+  const performSearch = () => {
+    const query = searchInput.value.toLowerCase();
+    const filteredSongs = songs.filter(
+      (song) =>
+        song.name.toLowerCase().includes(query) ||
+        song.artist.toLowerCase().includes(query)
+    );
+    renderSongList(filteredSongs,  `Search Results for "${searchInput.value}"`);
+  };
+
+  // Add click event listener to search button
+  searchBtn.addEventListener("click", performSearch);
+
+  // Add enter key event listener to search input
+  searchInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      performSearch();
+    }
+  });
+}
 // Ripple effect for buttons — create a span at click position and remove after animation
 function attachButtonRipples() {
   document.querySelectorAll("button, .btn-gradient").forEach((btn) => {
@@ -381,3 +419,4 @@ function attachRippleToButton(btn) {
     setTimeout(() => ripple.remove(), 650);
   });
 }
+
